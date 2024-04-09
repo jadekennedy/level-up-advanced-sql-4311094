@@ -61,8 +61,17 @@ INNER JOIN employee e
   ON s.employeeId = e.employeeId
 WHERE strftime('%Y', s.soldDate) >= '2023' 
 GROUP BY 1
-HAVING 'Total Cars Sold' > 5
+HAVING COUNT(*) > 5
 ORDER BY 4 DESC;
 
 
--- Exercise 7: 
+-- Exercise 7: Total Sales Per Year 
+WITH cte AS 
+  (SELECT strftime('%Y', soldDate) AS SoldYear, salesAmount
+FROM sales
+GROUP BY 1)
+
+SELECT SoldYear 'Sold Year', SUM(salesAmount) 'Annual Sales'
+FROM cte
+GROUP BY 1
+ORDER BY 1;
