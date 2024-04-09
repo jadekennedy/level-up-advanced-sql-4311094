@@ -27,3 +27,14 @@ SELECT c.firstName 'Customer First Name', c.lastName 'Customer Last Name', s.sal
 FROM sales s
 FULL JOIN customer c
   ON s.customerId = c.customerId;
+
+-- Exercise 4: Total Cars Sold Per Employee
+-- LEFT JOIN and SUM
+
+SELECT s.employeeId, e.firstName 'Employee First Name', e.lastName 'Employee Last Name', 
+  COUNT(s.inventoryId) 'Total Cars Sold'
+FROM sales s
+INNER JOIN employee e
+  ON s.employeeId = e.employeeId
+GROUP BY 1
+ORDER BY 4 DESC;
