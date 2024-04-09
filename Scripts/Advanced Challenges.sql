@@ -15,4 +15,5 @@ SELECT e.firstName 'First Name', e.lastName 'Last Name'
 FROM employee e 
 LEFT JOIN sales s
   ON e.employeeId = s.employeeId
-WHERE s.employeeId IS NULL;
+WHERE e.title = 'Sales Person' 
+  AND s.employeeId IS NULL;
