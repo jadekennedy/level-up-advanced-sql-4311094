@@ -59,7 +59,10 @@ SELECT s.employeeId, e.firstName 'Employee First Name', e.lastName 'Employee Las
 FROM sales s
 INNER JOIN employee e
   ON s.employeeId = e.employeeId
-WHERE strftime('%Y', s.soldDate) >= '2023' AND
-  'Total Cars Sold' > 5
+WHERE strftime('%Y', s.soldDate) >= '2023' 
 GROUP BY 1
+HAVING 'Total Cars Sold' > 5
 ORDER BY 4 DESC;
+
+
+-- Exercise 7: 
