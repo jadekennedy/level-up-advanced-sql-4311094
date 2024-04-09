@@ -51,3 +51,15 @@ LEFT JOIN employee e
   ON s.employeeId = e.employeeId
 WHERE strftime('%Y', s.soldDate) >= '2023'
 GROUP BY 1;
+
+
+-- Exercise 6: Employees Who Have Sold More Than 5 Cars This Year
+SELECT s.employeeId, e.firstName 'Employee First Name', e.lastName 'Employee Last Name', 
+  COUNT(s.inventoryId) 'Total Cars Sold'
+FROM sales s
+INNER JOIN employee e
+  ON s.employeeId = e.employeeId
+WHERE strftime('%Y', s.soldDate) >= '2023' AND
+  'Total Cars Sold' > 5
+GROUP BY 1
+ORDER BY 4 DESC;
