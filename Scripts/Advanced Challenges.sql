@@ -17,3 +17,13 @@ LEFT JOIN sales s
   ON e.employeeId = s.employeeId
 WHERE e.title = 'Sales Person' 
   AND s.employeeId IS NULL;
+
+
+-- Exercise 3: Generate a List of All Customers and Associated Sales
+-- Even if Data is Missing
+-- LEFT JOIN 
+
+SELECT c.firstName 'Customer First Name', c.lastName 'Customer Last Name', s.salesAmount 'Sales Amount'
+FROM sales s
+FULL JOIN customer c
+  ON s.customerId = c.customerId;
