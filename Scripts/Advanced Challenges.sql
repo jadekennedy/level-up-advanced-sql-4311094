@@ -29,7 +29,7 @@ FULL JOIN customer c
   ON s.customerId = c.customerId;
 
 -- Exercise 4: Total Cars Sold Per Employee
--- LEFT JOIN and SUM
+-- LEFT JOIN, COUNT, GROUP BY
 
 SELECT s.employeeId, e.firstName 'Employee First Name', e.lastName 'Employee Last Name', 
   COUNT(s.inventoryId) 'Total Cars Sold'
@@ -38,3 +38,16 @@ INNER JOIN employee e
   ON s.employeeId = e.employeeId
 GROUP BY 1
 ORDER BY 4 DESC;
+
+
+-- Exercise 5: Least and Most Expensive Car 
+-- Sold Per Employee This Year
+-- Note: Found max year in dataset first before hardcoding year
+
+SELECT s.employeeId, e.firstName 'Employee First Name', e.lastName 'Employee Last Name', 
+  MIN(s.salesAmount) 'Least Expensive Car', MAX(s.salesAmount) 'Most Expensive Car'
+FROM sales s
+LEFT JOIN employee e
+  ON s.employeeId = e.employeeId
+WHERE strftime('%Y', s.soldDate) >= '2023'
+GROUP BY 1;
