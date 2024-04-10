@@ -145,3 +145,15 @@ INNER JOIN inventory i
 INNER JOIN model m
   ON m.modelId = i.modelId
 GROUP BY e.employeeId, m.model;
+
+
+-- Exercise 11: Generate a Sales Report Showing Total Sales Per Month 
+-- and Annual Running Total
+
+SELECT strftime('%Y', soldDate) YearofSale, strftime('%m', soldDate) MonthofSale,
+ ROUND(SUM(salesAmount), 1) TotalSales,
+ SUM(SUM(salesAmount)) OVER (PARTITION BY strftime('%Y', soldDate)
+              ORDER BY strftime('%Y', soldDate), strftime('%m', soldDate)) AnnualRunningTotal
+FROM Sales
+GROUP BY 2,1;
+
