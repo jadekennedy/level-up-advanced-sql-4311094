@@ -71,7 +71,47 @@ WITH cte AS
 FROM sales
 GROUP BY 1)
 
-SELECT SoldYear 'Sold Year', SUM(salesAmount) 'Annual Sales'
+SELECT SoldYear 'Sold Year', salesAmount) 'Annual Sales'
 FROM cte
 GROUP BY 1
 ORDER BY 1;
+
+
+-- Exercise 8: Total Sales Per Month Per Employee in 2021
+
+WITH cte AS 
+(SELECT s.employeeId, e.firstName, e.lastName, s.salesAmount, 
+strftime('%m', soldDate) MonthofSale, strftime('%Y', soldDate) YearofSale
+FROM sales s
+INNER JOIN employee e
+  ON s.employeeId = e.employeeId
+WHERE strftime('%Y', soldDate) = '2021')
+
+SELECT employeeId, firstName, lastName,
+SUM(CASE WHEN MonthofSale = '01' 
+THEN salesAmount END) AS JanSales,
+SUM(CASE WHEN MonthofSale = '02'
+THEN salesAmount END) AS FebSales,
+SUM(CASE WHEN MonthofSale = '03'
+THEN salesAmount END) AS MarchSales,
+SUM(CASE WHEN MonthofSale = '04' 
+THEN salesAmount END) AS AprilSales,
+SUM(CASE WHEN MonthofSale = '05' 
+THEN salesAmount END) AS MaySales,
+SUM(CASE WHEN MonthofSale = '06' 
+THEN salesAmount END) AS JuneSales,
+SUM(CASE WHEN MonthofSale = '07'
+THEN salesAmount END) AS JulySales,
+SUM(CASE WHEN MonthofSale = '08'
+THEN salesAmount END) AS AugustSales,
+SUM(CASE WHEN MonthofSale = '09'
+THEN salesAmount END) AS SeptSales,
+SUM(CASE WHEN MonthofSale = '10' 
+THEN salesAmount END) AS OctSales,
+SUM(CASE WHEN MonthofSale = '11' 
+THEN salesAmount END) AS NovSales,
+SUM(CASE WHEN MonthofSale = '12'
+THEN salesAmount END) AS DecSales
+FROM cte
+GROUP BY 1
+ORDER BY 3, 2;
