@@ -149,6 +149,7 @@ GROUP BY e.employeeId, m.model;
 
 -- Exercise 11: Generate a Sales Report Showing Total Sales Per Month 
 -- and Annual Running Total
+-- WINDOW FUNCTION WITH SUM
 
 SELECT strftime('%Y', soldDate) YearofSale, strftime('%m', soldDate) MonthofSale,
  ROUND(SUM(salesAmount), 1) TotalSales,
@@ -157,3 +158,16 @@ SELECT strftime('%Y', soldDate) YearofSale, strftime('%m', soldDate) MonthofSale
 FROM Sales
 GROUP BY 2,1;
 
+
+-- Exercise 12: Number of Cars Sold This Month and Last Month
+-- WINDOW FUNCTION WITH LAG
+-- ALSO DEFINING OWN PARAMETERS
+
+SELECT strftime('%Y-%m', soldDate) AS MonthSold,
+  COUNT(*) AS NumberCarsSold,
+-- LAG function looks at preceding window as defined by calMonth
+  LAG (COUNT(*), 1, 0 ) OVER calMonth AS LastMonthCarsSold
+FROM sales
+GROUP BY strftime('%Y-%m', soldDate)
+WINDOW calMonth AS (ORDER BY strftime('%Y-%m', soldDate))
+ORDER BY strftime('%Y-%m', soldDate);
