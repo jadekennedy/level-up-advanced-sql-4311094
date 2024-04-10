@@ -115,3 +115,15 @@ THEN salesAmount END) AS DecSales
 FROM cte
 GROUP BY 1
 ORDER BY 3, 2;
+
+-- Exercise 9: All Sales of Electric Cars Using a Subquery
+SELECT s.inventoryId, i.modelId, i.colour 'Car Colour', s.salesAmount 'Sales Amount', s.soldDate 'Sold Date', COUNT(s.inventoryId) 'Number Of Cars Sold'
+FROM sales s
+INNER JOIN inventory i
+  ON s.inventoryId = i.inventoryId
+WHERE i.modelId IN 
+  (SELECT m.modelId
+  FROM model m
+  WHERE EngineType = 'Electric')
+GROUP BY s.inventoryId
+ORDER BY COUNT(s.inventoryId) DESC;
