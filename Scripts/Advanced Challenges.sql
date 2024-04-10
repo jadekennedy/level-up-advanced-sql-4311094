@@ -117,6 +117,7 @@ GROUP BY 1
 ORDER BY 3, 2;
 
 -- Exercise 9: All Sales of Electric Cars Using a Subquery
+-- SUBQUERY IN WHERE CLAUSE
 SELECT s.inventoryId, i.modelId, i.colour 'Car Colour', s.salesAmount 'Sales Amount', s.soldDate 'Sold Date', COUNT(s.inventoryId) 'Number Of Cars Sold'
 FROM sales s
 INNER JOIN inventory i
@@ -127,3 +128,20 @@ WHERE i.modelId IN
   WHERE EngineType = 'Electric')
 GROUP BY s.inventoryId
 ORDER BY COUNT(s.inventoryId) DESC;
+
+
+-- Exercise 10: For each Sales Person, Rank Car Models Sold Most
+-- WINDOW FUNCTION
+
+SELECT e.employeeId, e.firstName, e.lastName, m.model, s.salesId,
+  COUNT(model) NumberSold, 
+  RANK() OVER (PARTITION BY s.employeeId 
+              ORDER BY COUNT(model) DESC) Rank
+FROM sales s
+INNER JOIN employee e
+  ON s.employeeId = e.employeeId
+INNER JOIN inventory i
+  ON i.inventoryId = s.inventoryId
+INNER JOIN model m
+  ON m.modelId = i.modelId
+GROUP BY e.employeeId, m.model;
